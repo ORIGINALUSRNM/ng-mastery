@@ -2,10 +2,9 @@ import { Service } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface TodoItem {
-  id: number;
+  id: string;
   completed: boolean;
   description: string;
-  priority: number;
 }
 
 @Service()
@@ -18,15 +17,31 @@ export class TodoService {
     this.todosSubject$.next([
       ...this.todosSubject$.getValue(),
       {
-        id: 2,
+        id: crypto.randomUUID(),
         description,
         completed: false,
-        priority: 2,
       },
     ]);
   }
 
   getTodos(): Observable<TodoItem[]> {
     return this.todos$;
+  }
+
+  removeItem(todo: TodoItem): void {
+    this.todosSubject$.next([
+      ...this.todosSubject$.getValue().filter((item) => item.id !== todo.id),
+    ]);
+  }
+
+  toggleCompleted(id: string, completed: boolean) {
+    this.todosSubject$.next([
+      ...this.todosSubject$.getValue().map((item: TodoItem) => {
+        if (item.id === id) {
+          item.completed = completed;
+        }
+        return item;
+      }),
+    ]);
   }
 }

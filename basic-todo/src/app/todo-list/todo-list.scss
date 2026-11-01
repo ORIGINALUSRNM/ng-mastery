@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+.wrapper {
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.todo-item {
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+}
+
+.todo-description {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  input {
+    margin-right: 10px;
+  }
+}
+
+.empty {
+  text-align: center;
+}

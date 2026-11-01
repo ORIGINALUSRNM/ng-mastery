@@ -6,9 +6,7 @@
   <section class="todo-input">
     <app-todo-input (todoAdded)="handleTodoAdded($event)"></app-todo-input>
   </section>
-  <section class="todo-list"></section>
+  <section class="todo-list">
+    <app-todo-list></app-todo-list>
+  </section>
 </main>
-
-@for ((todo of todos$ | async); track todo.id ) {
-<div>{{todo.description}}</div>
-}

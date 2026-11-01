@@ -1,10 +1,11 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, signal, OnInit, inject } from '@angular/core';
 import { TodoService } from './todo.service';
 import { TodoInput } from './todo-input/todo-input';
+import { TodoList } from './todo-list/todo-list';
 
 @Component({
-  imports: [AsyncPipe, TodoInput],
+  imports: [AsyncPipe, TodoInput, TodoList, JsonPipe],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
