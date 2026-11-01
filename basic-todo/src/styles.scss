@@ -1,1 +1,75 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap');
+
+:root {
+  --color-bg: #1d2630;
+  --color-accent: #a6ebd2;
+  --color-accent-muted: #c4f5e2;
+  --color-text: #d8efe6;
+  --color-border: #3a4b50;
+  --glow-text: 0 0 6px rgba(166, 235, 210, 0.45);
+  --shadow-accent: 0 0 12px rgba(66, 235, 210, 0.35);
+  --shadow-panel: inset 0 0 0 1px var(--color-border), 0 0 18px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-accent);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+}
+
+body {
+  padding: 20px;
+}
+
+button {
+  background: var(--color-accent-muted);
+  border: none;
+  border-radius: 10px;
+  box-shadow: var(--shadow-panel);
+  color: var(--color-bg);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 20px;
+  padding: 19px 20px;
+  &:hover {
+    background: var(--color-accent);
+  }
+}
+
+input {
+  background: transparent;
+  border: 2px solid #3a4b50;
+  border-radius: 10px;
+  color: var(--color-text);
+  cursor: text;
+  font-size: 20px;
+  padding: 20px 60px;
+}
+
+section {
+  padding: 40px 0px;
+}
+
+/* Utility */
+.center {
+  display: block;
+  margin: 0 auto;
+}
+.center-text {
+  text-align: center;
+}
+
+.row {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

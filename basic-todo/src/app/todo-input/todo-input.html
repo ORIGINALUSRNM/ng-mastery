@@ -1,0 +1,4 @@
+<div class="row">
+  <input id="todo-entry" type="text" placeholder="What needs to be done?" #todo (keyup.enter)="addTodo(todo)" />
+  <button (click)="addTodo(todo)">Add</button>
+</div>
