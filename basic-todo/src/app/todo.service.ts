@@ -1,5 +1,6 @@
-import { Service } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { StorageService } from './storage.service';
 
 export interface TodoItem {
   id: string;
@@ -9,22 +10,28 @@ export interface TodoItem {
 
 @Service()
 export class TodoService {
+  private readonly STORAGE_KEY = 'ng-mastery-basic-todos';
+  private readonly storageService = inject(StorageService);
   private readonly todosSubject$ = new BehaviorSubject<TodoItem[]>([]);
 
   readonly todos$: Observable<TodoItem[]> = this.todosSubject$.asObservable();
 
   add(description: string): void {
-    this.todosSubject$.next([
+    const newValue = [
       ...this.todosSubject$.getValue(),
       {
         id: crypto.randomUUID(),
         description,
         completed: false,
       },
-    ]);
+    ];
+    this.todosSubject$.next(newValue);
+    this.saveToDataBase();
   }
 
   getTodos(): Observable<TodoItem[]> {
+    const todos = this.storageService.get(this.STORAGE_KEY);
+    this.todosSubject$.next(todos || []);
     return this.todos$;
   }
 
@@ -32,6 +39,12 @@ export class TodoService {
     this.todosSubject$.next([
       ...this.todosSubject$.getValue().filter((item) => item.id !== todo.id),
     ]);
+    this.saveToDataBase();
+  }
+
+  saveToDataBase() {
+    const newValue = this.todosSubject$.getValue();
+    this.storageService.set(this.STORAGE_KEY, newValue);
   }
 
   toggleCompleted(id: string, completed: boolean) {
@@ -43,5 +56,6 @@ export class TodoService {
         return item;
       }),
     ]);
+    this.saveToDataBase();
   }
 }

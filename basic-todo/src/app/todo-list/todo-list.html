@@ -1,10 +1,12 @@
 <div class="wrapper glow-border">
   @for ((todo of todos$ | async); track todo.id ) {
   <div class="row space-between todo-item border-shadow">
-    <div class="todo-description">
-      <input type="checkbox" #checkbox [checked]="todo.completed"
-        (change)="handleCompleteChange(todo.id, checkbox.checked)" />
-      <span>{{todo.description}}</span>
+    <div class="todo-description" [ngClass]="{ 'completed': todo.completed}">
+      <label>
+        <input type="checkbox" #checkbox [checked]="todo.completed"
+          (change)="handleCompleteChange(todo.id, checkbox.checked)" />
+        <span>{{todo.description}}</span>
+      </label>
     </div>
     <button class="delete icon-btn" (click)="handleDeleteTodoClick(todo)">
       <i class="fa-solid fa-trash-can"></i>

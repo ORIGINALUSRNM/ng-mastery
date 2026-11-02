@@ -1,9 +1,9 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { TodoService, TodoItem } from '../todo.service';
 
 @Component({
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, NgClass],
   selector: 'app-todo-list',
   styleUrl: './todo-list.scss',
   templateUrl: './todo-list.html',

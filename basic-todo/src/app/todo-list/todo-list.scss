@@ -24,3 +24,11 @@
 .empty {
   text-align: center;
 }
+
+label {
+  cursor: pointer;
+}
+
+.completed {
+  text-decoration: line-through;
+}
