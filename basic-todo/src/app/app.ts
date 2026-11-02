@@ -13,8 +13,6 @@ import { TodoList } from './todo-list/todo-list';
 export class App implements OnInit {
   private readonly todoService = inject(TodoService);
 
-  protected readonly todos$ = this.todoService.getTodos();
-
   ngOnInit() {
     console.log(this.todoService);
   }

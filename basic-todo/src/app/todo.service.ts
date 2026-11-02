@@ -1,5 +1,4 @@
-import { Service, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Service, inject, signal, effect } from '@angular/core';
 import { StorageService } from './storage.service';
 
 export interface TodoItem {
@@ -11,51 +10,35 @@ export interface TodoItem {
 @Service()
 export class TodoService {
   private readonly STORAGE_KEY = 'ng-mastery-basic-todos';
+
   private readonly storageService = inject(StorageService);
-  private readonly todosSubject$ = new BehaviorSubject<TodoItem[]>([]);
 
-  readonly todos$: Observable<TodoItem[]> = this.todosSubject$.asObservable();
+  private readonly _todos = signal<TodoItem[]>(this.storageService.get(this.STORAGE_KEY) ?? []);
 
-  add(description: string): void {
-    const newValue = [
-      ...this.todosSubject$.getValue(),
-      {
-        id: crypto.randomUUID(),
-        description,
-        completed: false,
-      },
-    ];
-    this.todosSubject$.next(newValue);
-    this.saveToDataBase();
+  readonly todos = this._todos.asReadonly();
+
+  constructor() {
+    effect(() => this.storageService.set(this.STORAGE_KEY, this._todos()));
   }
 
-  getTodos(): Observable<TodoItem[]> {
-    const todos = this.storageService.get(this.STORAGE_KEY);
-    this.todosSubject$.next(todos || []);
-    return this.todos$;
+  add(description: string): void {
+    this._todos.update((list) => [
+      ...list,
+      { id: crypto.randomUUID(), description, completed: false },
+    ]);
+  }
+
+  removeAllCompleted() {
+    this._todos.update((list) => list.filter((item) => !item.completed));
   }
 
   removeItem(todo: TodoItem): void {
-    this.todosSubject$.next([
-      ...this.todosSubject$.getValue().filter((item) => item.id !== todo.id),
-    ]);
-    this.saveToDataBase();
-  }
-
-  saveToDataBase() {
-    const newValue = this.todosSubject$.getValue();
-    this.storageService.set(this.STORAGE_KEY, newValue);
+    this._todos.update((list) => list.filter((item) => item.id !== todo.id));
   }
 
   toggleCompleted(id: string, completed: boolean) {
-    this.todosSubject$.next([
-      ...this.todosSubject$.getValue().map((item: TodoItem) => {
-        if (item.id === id) {
-          item.completed = completed;
-        }
-        return item;
-      }),
-    ]);
-    this.saveToDataBase();
+    this._todos.update((list) =>
+      list.map((item) => (item.id === id ? { ...item, completed } : item)),
+    );
   }
 }

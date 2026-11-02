@@ -1,4 +1,15 @@
 .todo-list {
   margin: 0px auto;
-  width: 700px;
+}
+
+app-todo-input {
+  display: block;
+  margin: 0 auto;
+  width: 800px;
+}
+
+app-todo-list {
+  display: block;
+  margin: 0 auto;
+  width: 1000px;
 }

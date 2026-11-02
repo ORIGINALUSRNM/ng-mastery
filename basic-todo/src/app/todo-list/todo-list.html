@@ -1,5 +1,5 @@
 <div class="wrapper glow-border">
-  @for ((todo of todos$ | async); track todo.id ) {
+  @for ((todo of todos()); track todo.id ) {
   <div class="row space-between todo-item border-shadow">
     <div class="todo-description" [ngClass]="{ 'completed': todo.completed}">
       <label>
@@ -14,5 +14,15 @@
   </div>
   } @empty {
   <p class="empty"><em>Nothing to do yet</em></p>
+  }
+</div>
+<div class="footer">
+  @if(todos().length) {
+  <div>{{remaining()}} {{remaining() === 1 ? 'item' : 'items' }} left</div>
+  @if(completed() > 0) {
+  <button class="delete-all icon-btn" (click)="handleDeleteAllCompleted()">
+    Clear Completed ({{completed()}})
+  </button>
+  }
   }
 </div>
