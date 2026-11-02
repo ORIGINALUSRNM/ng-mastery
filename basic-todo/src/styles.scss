@@ -5,7 +5,9 @@
   --color-accent: #a6ebd2;
   --color-accent-muted: #c4f5e2;
   --color-text: #d8efe6;
+  --color-text-muted: rgba(216, 239, 230, 0.4);
   --color-border: #3a4b50;
+  --color-warn: red;
   --glow-text: 0 0 6px rgba(166, 235, 210, 0.45);
   --shadow-accent: 0 0 12px rgba(66, 235, 210, 0.35);
   --shadow-panel: inset 0 0 0 1px var(--color-border), 0 0 18px rgba(0, 0, 0, 0.35);
@@ -17,9 +19,12 @@
   padding: 0px;
 }
 
+html {
+  background: var(--color-bg);
+}
+
 html,
 body {
-  background: var(--color-bg);
   color: var(--color-accent);
   font-family: 'Orbitron', sans-serif;
   font-size: 16px;
@@ -50,8 +55,13 @@ input {
   border-radius: 10px;
   color: var(--color-text);
   cursor: text;
+  font-family: inherit;
   font-size: 20px;
   padding: 20px 60px;
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 }
 
 input[type='checkbox'] {
@@ -61,7 +71,7 @@ input[type='checkbox'] {
   margin: 0;
   display: inline-grid;
   place-content: center;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-text);
   border-radius: 2px;
   background: var(--color-bg-panel);
   cursor: pointer;
@@ -96,7 +106,7 @@ input[type='checkbox'] {
 }
 
 section {
-  padding: 40px 0px;
+  padding: 40px 0px 0px 0px;
 }
 
 .icon-btn {
@@ -138,4 +148,64 @@ section {
 
 .border-shadow {
   box-shadow: var(--shadow-panel);
+}
+
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: -1; // behind everything
+  pointer-events: none; // never blocks clicks
+  overflow: hidden;
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+  animation: drift linear infinite;
+}
+
+.stars-far {
+  --tile: 211px;
+  background-image:
+    radial-gradient(circle at 20px 30px, rgba(216, 239, 230, 0.6) 1px, transparent 1.5px),
+    radial-gradient(circle at 90px 140px, rgba(216, 239, 230, 0.5) 1px, transparent 1.5px),
+    radial-gradient(circle at 160px 70px, rgba(216, 239, 230, 0.6) 1px, transparent 1.5px),
+    radial-gradient(circle at 50px 180px, rgba(216, 239, 230, 0.4) 1px, transparent 1.5px);
+  background-size: var(--tile) var(--tile);
+  animation-duration: 240s;
+}
+
+.stars-mid {
+  --tile: 347px;
+  background-image:
+    radial-gradient(circle at 60px 100px, rgba(216, 239, 230, 0.7) 1.5px, transparent 2px),
+    radial-gradient(circle at 250px 40px, rgba(166, 235, 210, 0.6) 1.5px, transparent 2px),
+    radial-gradient(circle at 180px 290px, rgba(216, 239, 230, 0.6) 1.5px, transparent 2px);
+  background-size: var(--tile) var(--tile);
+  animation-duration: 160s;
+}
+
+.stars-near {
+  --tile: 523px;
+  background-image:
+    radial-gradient(circle at 120px 220px, rgba(166, 235, 210, 0.8) 2px, transparent 2.5px),
+    radial-gradient(circle at 400px 90px, rgba(216, 239, 230, 0.7) 2px, transparent 2.5px);
+  background-size: var(--tile) var(--tile);
+  animation-duration: 100s;
+}
+
+@keyframes drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 calc(var(--tile) * -1);
+  } // move exactly one tile = seamless loop
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars {
+    animation: none;
+  }
 }

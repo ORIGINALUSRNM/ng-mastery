@@ -30,6 +30,7 @@ label {
 }
 
 .completed {
+  color: var(--color-text-muted);
   text-decoration: line-through;
 }
 
@@ -39,6 +40,13 @@ label {
   justify-content: space-between;
   margin-top: 20px;
   padding: 0px 5px;
+}
+
+.delete {
+  color: var(--color-text-muted);
+  &:hover {
+    color: var(--color-warn);
+  }
 }
 
 .delete-all {
